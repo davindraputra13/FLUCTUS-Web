@@ -1,0 +1,900 @@
+/* --- RESET & VARIABLES --- */
+:root {
+    --bg-sand: #EFE8D3;
+    --brand-yellow: #D49D2C;
+    --ocean-blue: #2D5E8C;
+    --text-dark: #221A15;
+    --font-heading: 'Syne', sans-serif;
+    --font-nav: 'Space Grotesk', sans-serif;
+    --font-mono: 'Courier New', monospace;
+    --max-width: 1280px; /* Batas lebar standar desktop */
+}
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-sand);
+    font-family: var(--font-nav);
+    color: var(--text-dark);
+    overflow-x: hidden; /* Mencegah horizontal scrollbar liar */
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* --- HEADER DESKTOP --- */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    height: 85px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    background-color: var(--brand-yellow);
+    border-bottom: 4px solid var(--ocean-blue);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.logo-container img {
+    max-height: 60px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.logo-container img:hover {
+    transform: scale(1.05);
+}
+
+/* Navigasi Desktop */
+.main-nav ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.main-nav a {
+    position: relative;
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 700;
+    padding-bottom: 5px;
+    transition: color 0.3s ease;
+}
+
+.main-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background-color: var(--ocean-blue);
+    transition: width 0.3s ease;
+}
+
+.main-nav a:hover::after,
+.main-nav a.active::after {
+    width: 100%;
+}
+
+.main-nav a:hover {
+    color: #FFFFFF;
+}
+
+/* --- HAMBURGER BUTTON --- */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+}
+
+.menu-toggle span {
+    width: 100%;
+    height: 3px;
+    background-color: #000000;
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-toggle.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* --- HERO SLIDER --- */
+.hero-slider {
+    position: relative;
+    width: 100%;
+    height: min(70vh, 650px); /* Responsif untuk MacBook & Layar Lebar */
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+}
+
+.slider-container { 
+    width: 100%; 
+    height: 100%; 
+}
+
+.slide { 
+    position: absolute; 
+    width: 100%; 
+    height: 100%; 
+    opacity: 0; 
+    transition: opacity 1s ease-in-out; 
+}
+
+.slide.active { 
+    opacity: 1; 
+}
+
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.logo-overlay { 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    z-index: 10; 
+}
+
+.waving-logo { 
+    width: min(400px, 80vw); 
+    animation: waveEffect 3s infinite ease-in-out; 
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.4);
+    color: #4A3525;
+    border: 2px solid #4A3525;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-size: 20px;
+    z-index: 20;
+    transition: 0.3s;
+}
+
+.arrow:hover { 
+    background: var(--brand-yellow); 
+    color: #fff; 
+}
+
+.left { left: 20px; }
+.right { right: 20px; }
+
+.indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 20;
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    background-color: #fff;
+    border: 2px solid #4A3525;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.dot.active { background-color: var(--brand-yellow); }
+
+@keyframes waveEffect {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-12px) rotate(2deg); }
+    50% { transform: translateY(0) rotate(0deg); }
+    75% { transform: translateY(12px) rotate(-2deg); }
+}
+
+/* --- ABOUT SECTION --- */
+.about-us-container {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 50px;
+    padding: min(80px, 8vw) min(60px, 5vw);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    background-color: var(--bg-sand);
+}
+
+.about-image, .about-text {
+    flex: 1 1 350px; /* Fleksibel turun ke bawah jika < 350px */
+}
+
+.about-image img {
+    width: 100%;
+    border: 3px solid #2D2926;
+    filter: sepia(20%);
+}
+
+.about-text h3 {
+    font-size: 1rem;
+    letter-spacing: 5px;
+    color: var(--brand-yellow);
+    margin-bottom: 10px;
+}
+
+.about-text h2 {
+    font-size: clamp(2.2rem, 4vw, 3.5rem); /* Ukuran teks dinamis sesuai layar */
+    margin-bottom: 25px;
+    color: #2D2926;
+    font-family: var(--font-mono);
+    border-left: 5px solid var(--brand-yellow);
+    padding-left: 15px;
+}
+
+.about-text p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #4A3525;
+    margin-bottom: 20px;
+}
+
+/* Tiki Floating Element */
+.tiki-about {
+    position: absolute; 
+    width: min(150px, 12vw); 
+    z-index: 5; 
+    animation: tikiBobbing 4s infinite ease-in-out;
+    pointer-events: none;
+}
+
+
+@keyframes tikiBobbing {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-15px) rotate(2deg); }
+}
+
+/* --- DISCOGRAPHY SECTION --- */
+.discography-section {
+    padding: min(80px, 8vw) 20px;
+    background-color: #2D2926; 
+    color: #F4F1EA;
+    position: relative;
+    overflow: hidden;
+}
+
+.tiki-bg {
+    position: absolute; /* Memaksa posisi menempel di tepi layar monitor */
+    top: 50%;
+    width: min(400px, 20vw); /* Sedikit diperkecil agar tidak menutupi konten di layar kecil */
+    z-index: 1;
+    animation: tikiBobbing 4s infinite ease-in-out;
+    pointer-events: none;
+    filter: invert(1);
+    opacity: 0.8;
+}
+
+.tiki-bg.tiki-left { 
+    left: 0; /* Menempel di pinggir kiri layar */
+    transform: translateY(-50%); 
+}
+
+.tiki-bg.tiki-right { 
+    right: 0; /* Menempel di pinggir kanan layar */
+    transform: translateY(-50%) scaleX(-1); 
+}
+
+.discography-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.album-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.album-art {
+    flex: 1 1 300px;
+}
+
+.album-art img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.album-details {
+    flex: 1.2 1 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.release-tag {
+    display: inline-block;
+    background-color: var(--brand-yellow);
+    color: #000000;
+    font-weight: 800;
+    font-size: 0.9rem;
+    padding: 4px 14px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+    border: 2px solid var(--ocean-blue);
+}
+
+.btn-listen {
+    display: inline-block;
+    padding: 12px 25px;
+    background: var(--ocean-blue);
+    color: white;
+    text-decoration: none;
+    margin-top: 20px;
+    border: 2px solid #2D2926;
+    transition: 0.3s ease;
+    font-family: var(--font-mono);
+    font-weight: bold;
+}
+
+.btn-listen:hover {
+    background: var(--brand-yellow);
+    color: #2D2926;
+}
+
+/* --- ARCHIVE SECTION --- */
+.archive-section {
+    padding: min(80px, 8vw) 20px;
+    background-color: #F4F1EA;
+    color: #2D2926;
+}
+
+.archive-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+.archive-description {
+    flex: 1 1 380px; 
+    font-family: var(--font-mono);
+    font-size: 1.05rem; 
+    line-height: 1.8;
+}
+
+.archive-description h2,
+.archive-description .section-title {
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
+    font-weight: bold;
+    text-align: left; 
+    margin-bottom: 20px;
+    letter-spacing: 3px;
+    color: var(--brand-yellow);
+}
+
+.archive-grid {
+    flex: 1.2 1 400px; 
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.single-card {
+    background: #ffffff;
+    padding: 15px;
+    box-shadow: 6px 6px 0px rgba(0,0,0,0.15);
+    text-align: center;
+    border: 2px solid #2D2926;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.single-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+}
+
+.single-card h3 {
+    font-size: 0.9rem;
+    font-family: var(--font-mono);
+    font-weight: bold;
+    margin: 6px 0 4px 0;
+}
+
+.single-card .btn-sm {
+    font-size: 0.8rem;
+    color: #1DB954;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.single-card:nth-child(1) { transform: rotate(-2deg); }
+.single-card:nth-child(2) { transform: rotate(2deg); }
+.single-card:nth-child(3) { transform: rotate(1.5deg); }
+.single-card:nth-child(4) { transform: rotate(-2deg); }
+
+.single-card:hover {
+    transform: rotate(0deg) scale(1.03);
+    z-index: 10;
+    box-shadow: 8px 12px 0px rgba(0,0,0,0.25);
+}
+
+/* --- VIDEO SECTION --- */
+.video-section {
+    padding: min(80px, 8vw) 20px;
+    background-color: var(--ocean-blue);
+    color: #FFFFFF;
+    text-align: center;
+}
+
+.video-section .section-title {
+    color: var(--brand-yellow);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+}
+
+.video-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Autofit responsif tanpa media query berlebih */
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.video-card {
+    background: #FFFFFF;
+    padding: 10px;
+    box-shadow: 6px 6px 0px #2D2926;
+}
+
+.video-card iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+}
+
+/* --- SHOWS SECTION --- */
+.show-section {
+    background-color: var(--brand-yellow);
+    color: #2D2926;
+    padding: min(90px, 9vw) 20px;
+    border-top: 4px solid var(--ocean-blue);
+    border-bottom: 4px solid var(--ocean-blue);
+}
+
+.show-section .section-title {
+    color: #2D2926;
+    text-align: center; 
+    margin-bottom: 40px;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+}
+
+.show-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.event-row {
+    display: flex;
+    align-items: center;
+    background: #e8ece5;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.1);
+    border: 1px solid #ddd;
+    transition: transform 0.2s ease;
+}
+
+.event-row:hover {
+    transform: translateX(5px);
+}
+
+.event-date {
+    background: #2D2926;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    font-family: var(--font-mono);
+    min-width: 70px;
+}
+
+.day { display: block; font-size: 1.5rem; font-weight: bold; }
+.month { font-size: 0.8rem; text-transform: uppercase; }
+
+.event-info {
+    flex: 1;
+    padding: 0 30px;
+    font-family: var(--font-mono);
+}
+
+.event-info h3 { margin: 0; font-size: 1.2rem; color: #2D2926; }
+.event-info p { margin: 5px 0 0; color: #555; font-size: 0.9rem; }
+
+.event-action .btn-sm {
+    background: transparent;
+    border: 2px solid #2D2926;
+    color: #2D2926;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-weight: bold;
+    font-size: 0.8rem;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.event-action .btn-sm:hover {
+    background: #2D2926;
+    color: white;
+}
+/* --- MERCH SECTION --- */
+.merch-section { 
+    background-color: var(--bg-sand, #fdfbf7);
+    padding: min(80px, 8vw) 20px;
+}
+
+.merch-section .section-title {
+    text-align: center;
+    margin-bottom: 30px; /* Tambahkan jarak bawah agar tidak menempel dengan slide */
+}
+
+.merch-container { 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    position: relative; 
+    padding: 0 50px; 
+}
+
+/* Wajib set overflow hidden agar slide disamping tidak merusak layout */
+.merch-swiper {
+    width: 100%;
+    padding-bottom: 20px;
+    overflow: hidden; 
+}
+
+/* Memastikan wrapper menggunakan flexbox bawaan Swiper */
+.merch-swiper .swiper-wrapper {
+    display: flex;
+    box-sizing: content-box;
+}
+
+/* Memaksa slide menyesuaikan lebar grid Swiper */
+.merch-swiper .swiper-slide {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.merch-card {
+    background: white;
+    padding: 15px;
+    border: 2px solid #2D2926;
+    box-shadow: 5px 5px 0px rgba(0,0,0,0.15);
+    text-align: center;
+    width: 100%; 
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.merch-card img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.size-tag {
+    font-size: 0.85em;
+    color: #555;
+    background: #f0f0f0;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    display: inline-block;
+}
+
+.btn-main { 
+    background: #2D2926; 
+    color: white; 
+    padding: 10px 20px; 
+    border: none; 
+    cursor: pointer; 
+    width: 100%;
+    font-weight: bold;
+}
+
+/* Modal */
+.modal-overlay { 
+    display: none; 
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    background: rgba(0,0,0,0.7); 
+    z-index: 9999; 
+    justify-content: center; 
+    align-items: center; 
+}
+
+.modal-box { 
+    background: white; 
+    padding: 30px; 
+    width: min(350px, 90vw); 
+    text-align: center; 
+    border-radius: 8px; 
+}
+
+/* --- FOOTER --- */
+.site-footer {
+    background: #221A15;
+    color: var(--bg-sand, #fdfbf7);
+    border-top: 4px solid var(--brand-yellow, #f4c430);
+    padding: 60px 20px 40px;
+    text-align: center;
+    font-family: var(--font-mono, monospace);
+    position: relative;
+}
+
+.footer-container { 
+    max-width: 1100px; 
+    margin: 0 auto; 
+}
+
+.footer-logo { 
+    max-width: 140px; 
+    margin: 0 auto 20px auto; 
+    display: block; 
+}
+
+.footer-socials { 
+    margin: 30px 0; 
+    font-size: 24px; 
+}
+
+.footer-socials a { 
+    color: #fff; 
+    margin: 0 12px; 
+    text-decoration: none; 
+    transition: color 0.3s;
+}
+
+.footer-socials a:hover {
+    color: var(--brand-yellow, #f4c430);
+}
+
+/* --- FOOTER INFO (Rapi Grid/Flex) --- */
+.footer-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Membuat item sejajar di tengah */
+    gap: 30px 40px; /* Jarak antar baris & kolom */
+    margin: 40px 0;
+    text-align: left;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.info-item i {
+    font-size: 1.5rem;
+    color: var(--brand-yellow, #f4c430);
+    flex-shrink: 0;
+}
+
+.footer-bottom { 
+    font-size: 0.85em; 
+    color: #888; 
+    margin-top: 40px; 
+    border-top: 1px solid #332720;
+    padding-top: 20px;
+}
+
+/* --- FLOATING CHAT WIDGET --- */
+.chat-widget {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 55px;
+    height: 55px;
+    background-color: #25D366; /* Warna khas WhatsApp atau ubah ke warna brand */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 9999; /* Memastikan melayang di atas semua elemen */
+    text-decoration: none;
+    transition: transform 0.3s ease, background-color 0.3s;
+}
+
+.chat-widget:hover {
+    transform: scale(1.1);
+    background-color: #1eb954;
+    color: white;
+}
+
+/* ===================================================
+   MEDIA QUERIES (DESKTOP & MOBILE RESPONSIVE)
+   =================================================== */
+
+/* Layar Menengah & HP (Di bawah 900px) */
+@media (max-width: 900px) {
+    header {
+        height: 70px;
+        padding: 0 20px;
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    .main-nav {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 70px);
+        background-color: var(--brand-yellow);
+        border-top: 2px solid var(--ocean-blue);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .main-nav.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+        display: flex !important; /* Mencegah konflik display */
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        gap: 25px;
+        text-align: center;
+    }
+
+    .main-nav a {
+        font-size: 1.5rem;
+    }
+
+    /* Sembunyikan hiasan bertumpuk di HP agar clean */
+    .logo-overlay, 
+    .waving-logo,
+    .tiki-about,
+    .tiki-bg {
+        display: none !important;
+    }
+
+    .album-wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .album-details {
+        align-items: center;
+    }
+
+    .archive-container {
+        flex-direction: column;
+    }
+
+    .archive-description {
+        text-align: center;
+    }
+
+    .archive-description h2, 
+    .archive-description .section-title {
+        text-align: center;
+    }
+
+    .single-card {
+        transform: rotate(0deg) !important;
+    }
+
+    .event-row {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .event-info {
+        padding: 0;
+    }
+
+    .event-date {
+        width: 100%;
+    }
+
+    .footer-info {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+}
+
+/* Layar Kecil / Smartphone (Di bawah 480px) */
+@media (max-width: 480px) {
+    .archive-grid {
+        grid-template-columns: 1fr; /* 1 Kolom untuk HP kecil */
+    }
+
+    .merch-container {
+        padding: 0 10px;
+    }
+
+    .arrow {
+        padding: 8px 12px;
+        font-size: 16px;
+    }
+}
